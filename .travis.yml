@@ -1,0 +1,35 @@
+language: generic
+sudo: required
+
+#script:
+#  - docker run -e CI=true USERNAME/react-test npm test
+
+#1. Specify docker as a dependency
+services:
+  - docker
+
+#2. Build test version of React project
+before_install:
+  - docker build -t me/react-test -f Dockerfile.dev ./client/Dockerfile.dev ./client
+
+#3. Run tests
+script:
+  - docker run -e CI=true me/react-test npm test -- --coverage
+
+#4. Build prod version of all projects
+after_success:
+  - docker build -t me/complex-client  ./client
+  - docker build -t me/complex-nginx  ./nginx
+  - docker build -t me/complex-server  ./server
+  - docker build -t me/complex-worker  ./worker
+
+#5. Push all images to docker hub
+#5.1. Login to docker hub
+  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push me/complex-client
+  - docker push me/complex-nginx
+  - docker push me/complex-server
+  - docker push me/complex-worker
+
+
+#6. Tell Elastic Beanstalk to update
