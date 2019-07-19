@@ -18,18 +18,18 @@ script:
 
 #4. Build prod version of all projects
 after_success:
-  - docker build -t me/complex-client  ./client
-  - docker build -t me/complex-nginx  ./nginx
-  - docker build -t me/complex-server  ./server
-  - docker build -t me/complex-worker  ./worker
+  - docker build -t "$DOCKER_ID/complex-client"  ./client
+  - docker build -t "$DOCKER_ID/complex-nginx"  ./nginx
+  - docker build -t "$DOCKER_ID/complex-server"  ./server
+  - docker build -t "$DOCKER_ID/complex-worker"  ./worker
 
 #5. Push all images to docker hub
 #5.1. Login to docker hub
   - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push me/complex-client
-  - docker push me/complex-nginx
-  - docker push me/complex-server
-  - docker push me/complex-worker
+  - docker push "$DOCKER_ID/complex-client"
+  - docker push "$DOCKER_ID/complex-nginx"
+  - docker push "$DOCKER_ID/complex-server"
+  - docker push "$DOCKER_ID/complex-worker"
 
 
 #6. Tell Elastic Beanstalk to update
