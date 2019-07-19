@@ -10,7 +10,7 @@ services:
 
 #2. Build test version of React project
 before_install:
-  - docker build -t me/react-test -f Dockerfile.dev ./client/Dockerfile.dev ./client
+  - docker build -t me/react-test -f Dockerfile.dev ./client
 
 #3. Run tests
 script:
