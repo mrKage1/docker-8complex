@@ -33,3 +33,22 @@ after_success:
 
 
 #6. Tell Elastic Beanstalk to update
+# access_key_id:
+#    secure: $AWS_ACCESS_KEY
+
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: docker-8complex
+  env: Docker8complex-env
+  bucket_name: elasticbeanstalk-us-east-2-950997577246
+  bucket_path: docker-8complex
+  on:
+    branch: master
+  access_key_id: 
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
+
+  
